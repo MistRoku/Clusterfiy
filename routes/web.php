@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 Route::get('/', function () {
@@ -33,9 +34,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/dashboard', fn () => 'You are logged in as a master admin. The real dashboard comes next.')
-            ->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 });
+
+
 
 require __DIR__.'/auth.php';
