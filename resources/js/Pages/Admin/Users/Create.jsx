@@ -15,9 +15,8 @@ export default function Create({ companies }) {
 
     function submit(e) {
         e.preventDefault();
-        post(route('admin.users.store'));
+        post('/admin/users');
     }
-
     return (
         <div style={{ padding: '20px', fontFamily: 'sans-serif', maxWidth: '600px' }}>
             <Head title="Create User" />
