@@ -1,4 +1,4 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage, Link } from '@inertiajs/react';
 
 export default function Dashboard({ companies }) {
     // useForm handles the data for our "Create Company" form
@@ -23,6 +23,10 @@ export default function Dashboard({ companies }) {
         <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
             <Head title="Master Admin Dashboard" />
             <h1>Master Admin Dashboard</h1>
+
+            <Link href={route('admin.users.create')} style={{ display: 'inline-block', marginBottom: '20px', padding: '10px 15px', backgroundColor: '#007bff', color: 'white', textDecoration: 'none', borderRadius: '5px' }}>
+                + Create New User
+            </Link>
 
             {/* Show success message if it exists */}
             {flash && flash.success && (
