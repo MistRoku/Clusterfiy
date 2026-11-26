@@ -1,4 +1,4 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 
 export default function Index({ tasks }) {
     const { flash } = usePage().props;
@@ -25,7 +25,21 @@ export default function Index({ tasks }) {
                             <h3 style={{ margin: '0 0 10px 0' }}>{task.title}</h3>
                             <p style={{ margin: '0 0 10px 0', color: '#666' }}>{task.description}</p>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9em', color: '#555' }}>
-                                <span>Status: <strong>{task.status}</strong></span>
+                                <select
+                                    value={task.status}
+                                    onChange={(e) => {
+                                        router.patch(`/company/tasks/${task.id}`, {
+                                            status: e.target.value
+                                        }, {
+                                            preserveScroll: true,
+                                        });
+                                    }}
+                                    style={{ padding: '5px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f8f9fa' }}
+                                >
+                                    <option value="pending">Pending</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="done">Done</option>
+                                </select>
                                 <span>Due: {task.due_date || 'No date'}</span>
                                 <span>Assigned to: {task.assignees.map(u => u.first_name).join(', ')}</span>
                             </div>

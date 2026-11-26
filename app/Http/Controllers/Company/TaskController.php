@@ -69,4 +69,21 @@ class TaskController extends Controller
 
         return redirect()->route('company.tasks.index')->with('success', 'Task created successfully!');
     }
+
+    public function update(Request $request, Task $task)
+    {
+        // SECURITY CHECK: Never trust the client.
+        // Ensure this task actually belongs to the logged-in user's company.
+        if ($task->company_id !== auth()->user()->company_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:pending,in_progress,done',
+        ]);
+
+        $task->update($validated);
+
+        return redirect()->back()->with('success', 'Task status updated!');
+    }
 }
