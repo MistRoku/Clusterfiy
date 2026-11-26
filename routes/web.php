@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Company\CompanyLoginController;
 use App\Http\Controllers\Company\CompanyDashboardController;
+use App\Http\Controllers\Company\TaskController;
 
 
 Route::get('/', function () {
@@ -56,6 +57,9 @@ Route::prefix('company')->name('company.')->group(function () {
         // THIS IS THE FIX: Use the controller instead of a closure
         Route::get('/dashboard', [CompanyDashboardController::class, 'index'])->name('dashboard');
         Route::post('/logout', [CompanyLoginController::class, 'destroy'])->name('logout');
+        Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+        Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+        Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
     });
 });
 
