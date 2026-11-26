@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Company\CompanyLoginController;
+use App\Http\Controllers\Company\CompanyDashboardController;
 
 
 Route::get('/', function () {
@@ -40,6 +42,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/companies', [AdminDashboardController::class, 'store'])->name('companies.store');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    });
+});
+
+// Company User Routes
+Route::prefix('company')->name('company.')->group(function () {
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [CompanyLoginController::class, 'create'])->name('login');
+        Route::post('/login', [CompanyLoginController::class, 'store'])->name('login.store');
+    });
+
+    Route::middleware('auth')->group(function () {
+        // THIS IS THE FIX: Use the controller instead of a closure
+        Route::get('/dashboard', [CompanyDashboardController::class, 'index'])->name('dashboard');
+        Route::post('/logout', [CompanyLoginController::class, 'destroy'])->name('logout');
     });
 });
 
